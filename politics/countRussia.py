@@ -62,4 +62,4 @@ def main(argv=None):
       sys.exit()
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+   main(sys.argv])
