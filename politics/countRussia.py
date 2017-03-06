@@ -37,9 +37,11 @@ def parseUrl(url):
 
     print "Total mentions of Russia: "+str(totalCount)
 
-def main(argv):
+def main(argv=None):
    url = ''
    usage = 'countRussia.py -u <url>'
+   if argv is None:
+       argv = sys.argv
 
    try:
       opts, args = getopt.getopt(argv,"hu:",["url="])
