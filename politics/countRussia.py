@@ -26,6 +26,7 @@ import sys, getopt
 def parseUrl(url):
     parsed = parser.from_file(url)
     words = parsed["content"].lower().split() #lowercase everything                                                                                                
+    finalWords = words
     finalWords = [''.join(c for c in s if c not in string.punctuation) for s in finalWords] # remove punc                                                          
     finalWords = [s for s in finalWords if s] # remove empty strings                                                                                               
     counts = Counter(finalWords)
