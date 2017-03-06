@@ -16,6 +16,7 @@ Send them to [Chris A. Mattmann](mailto:chris.mattmann@gmail.com).
 Contributors
 ============
 * Chris A. Mattmann
+* David Mertz
 
 License
 =======
