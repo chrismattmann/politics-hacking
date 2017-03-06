@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function, division
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -21,22 +23,30 @@ from tika import parser
 from collections import Counter
 import requests
 import string
-import sys, getopt
+import sys, getopt, re
 
 def parseUrl(url):
     parsed = parser.from_file(url)
-    words = parsed["content"].lower().split() #lowercase everything                                                                                                
-    finalWords = words
-    finalWords = [''.join(c for c in s if c not in string.punctuation) for s in finalWords] # remove punc                                                          
-    finalWords = [s for s in finalWords if s] # remove empty strings                                                                                               
+    words = parsed["content"].lower().split() #lowercase everything
+    finalWords = [w.strip(string.punctuation) for w in words]
     counts = Counter(finalWords)
 
     totalCount = 0
+    prefixes = ['russia',
+                'russo',
+                'soviet',
+                'moscow',
+                'kremlin',
+                'apparatchik',
+                'россия',
+                'kompromat']
+    pat = re.compile('|'.join(prefixes))
     for w in counts:
-        if "russia" in w:
+        if re.match(pat, w):
             totalCount += counts[w]
 
-    print "Total mentions of Russia: "+str(totalCount)
+    print("Total mentions of Russia topic: %d (density=%.2f%%)" % (
+           totalCount, totalCount*100/len(finalWords)))
 
 def main(argv=None):
    url = ''
@@ -47,11 +57,11 @@ def main(argv=None):
    try:
       opts, args = getopt.getopt(argv[1:],"hu:",["url="])
    except getopt.GetoptError:
-      print usage
+      print(usage)
       sys.exit(2)
    for opt, arg in opts:
       if opt == '-h':
-         print usage
+         print(usage)
          sys.exit()
       elif opt in ("-u", "--url"):
          url = arg
@@ -59,7 +69,7 @@ def main(argv=None):
    if url != '':
       parseUrl(url)
    else:
-      print usage
+      print(usage)
       sys.exit()
 
 if __name__ == "__main__":
