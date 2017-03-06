@@ -44,7 +44,7 @@ def main(argv=None):
        argv = sys.argv
 
    try:
-      opts, args = getopt.getopt(argv,"hu:",["url="])
+      opts, args = getopt.getopt(argv[1:],"hu:",["url="])
    except getopt.GetoptError:
       print usage
       sys.exit(2)
