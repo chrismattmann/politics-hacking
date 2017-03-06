@@ -24,8 +24,10 @@ import string
 import sys, getopt
 
 def parseUrl(url):
+    stop_words = frozenset(requests.get('https://raw.githubusercontent.com/stanfordnlp/CoreNLP/master/data/edu/stanford/nlp/patterns/surface/stopwords.txt').content.split())
     parsed = parser.from_file(url)
     words = parsed["content"].lower().split() #lowercase everything                                                                                                
+    finalWords = [w for w in words if w not in stop_words] #remove stop words                                                                                      
     finalWords = [''.join(c for c in s if c not in string.punctuation) for s in finalWords] # remove punc                                                          
     finalWords = [s for s in finalWords if s] # remove empty strings                                                                                               
     counts = Counter(finalWords)
